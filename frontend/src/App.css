@@ -1,0 +1,115 @@
+/* ===== GLOBAL RESET ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: #1a1a2e;
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ===== APP WRAPPER ===== */
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  width: 100%;
+}
+
+/* ===== AUTH PAGES (Login & Register) ===== */
+.auth-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 120px);
+  padding: 1rem;
+  width: 100%;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+/* ===== DASHBOARD ===== */
+.dashboard-wrapper {
+  width: 100%;
+  padding: 1rem;
+}
+
+/* ===== CHARTS FIX ===== */
+.recharts-wrapper {
+  width: 100% !important;
+}
+
+.chart-card {
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ===== CARDS ===== */
+.card {
+  border-radius: 12px;
+}
+
+/* ===== FADE IN ANIMATION ===== */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== RESPONSIVE FIXES ===== */
+@media (max-width: 768px) {
+  .auth-card {
+    max-width: 100%;
+    padding: 1.5rem;
+  }
+
+  .dashboard-wrapper {
+    padding: 0.5rem;
+  }
+
+  .recharts-wrapper,
+  .recharts-surface {
+    width: 100% !important;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  .btn-sm {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 1rem;
+  }
+
+  .card-body {
+    padding: 0.75rem;
+  }
+}
