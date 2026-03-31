@@ -9,11 +9,13 @@ const metricsRoutes = require("./routes/metrics");
 const authRouter = require("./routes/auth");
 const workoutRoutes = require("./routes/workout");
 const app = express();
-
+//"http://localhost:3000"
 // middleware
 app.use(express.json());
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: process.env.NODE_ENV === "production"
+    ? process.env.FRONTEND_URL  // e.g. https://yourapp.onrender.com
+    : "http://localhost:3000",
     credentials: true,
   })
 );
@@ -27,7 +29,9 @@ app.use(
     cookie: {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
-      secure:false
+      //secure:false
+      secure: process.env.NODE_ENV === "production", // true in prod
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     },
   })
 );
@@ -38,13 +42,16 @@ app.use("/dashboard", dashboardRouter);
 app.use("/workout", workoutRoutes);
 app.use("/metrics", metricsRoutes);
 
+
+
 // db + server
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("✅ MongoDB connected");
-    app.listen(process.env.PORT, () =>
-      console.log(`🚀 Server running on ${process.env.PORT}`)
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () =>
+      console.log(`🚀 Server running on ${PORT}`)
     );
   })
   .catch(err => console.error(err));
@@ -52,11 +59,11 @@ mongoose
 
 // 🔹 production frontend
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "frontend/build")));
+  app.use(express.static(path.join(__dirname, "..frontend/build")));
 
   app.get("/{*path}", (req, res) => {
     res.sendFile(
-      path.join(__dirname, "frontend/build/index.html")
+      path.join(__dirname, "..frontend/build/index.html")
     );
   });
 }
