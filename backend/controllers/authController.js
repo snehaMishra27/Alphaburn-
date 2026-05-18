@@ -49,25 +49,69 @@ exports.changePassword = async (req, res) => {
 };
 
 
+// exports.login = async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+
+//     const user = await User.findOne({ email });
+//     if (!user) return res.status(400).json({ error: "Invalid credentials" });
+
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) return res.status(400).json({ error: "Invalid credentials" });
+
+//     req.session.user = { id: user._id, name: user.name, email: user.email };
+
+//     res.json({ message: "Logged in successfully", user: req.session.user });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Server error" });
+//   }
+// };
+
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
+
+    email = email.trim().toLowerCase();
+
+    console.log("EMAIL RECEIVED:", email);
 
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ error: "Invalid credentials" });
+
+    console.log("USER FOUND:", user);
+
+    if (!user) {
+      return res.status(400).json({
+        error: "User not found"
+      });
+    }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ error: "Invalid credentials" });
 
-    req.session.user = { id: user._id, name: user.name, email: user.email };
+    console.log("PASSWORD MATCH:", isMatch);
 
-    res.json({ message: "Logged in successfully", user: req.session.user });
+    if (!isMatch) {
+      return res.status(400).json({
+        error: "Password incorrect"
+      });
+    }
+
+    req.session.user = {
+      id: user._id,
+      name: user.name,
+      email: user.email
+    };
+
+    res.json({
+      message: "Logged in successfully",
+      user: req.session.user
+    });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
   }
 };
-
 exports.logout = (req, res) => {
   req.session.destroy(err => {
     if (err) return res.status(500).json({ error: "Logout failed" });
