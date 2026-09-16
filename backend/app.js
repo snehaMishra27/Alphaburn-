@@ -11,24 +11,24 @@ const workoutRoutes = require("./routes/workout");
 const app = express();
 //"http://localhost:3000"
 // middleware
-app.use(express.json());
+app.use(express.json());  //middleware starts
 app.use(cors({
     origin: process.env.NODE_ENV === "production"
     ? process.env.FRONTEND_URL  // e.g. https://yourapp.onrender.com
     : "http://localhost:3000",
-    credentials: true,
+    credentials: true,  //using sessions,without Browser needs permission to send Cookies. Without this Session won't work.
   })
 );
 
 app.use(
   session({
-    name: "connect.sid",
+    name: "connect.sid",  //cookie name
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: false, //dont create empty sessions create only after login
     cookie: {
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
+      httpOnly: true, //blocks JavaScript/outside client from read Cookie. Prevents XSS attacks.
+      maxAge: 24 * 60 * 60 * 1000,  //after one day session expires
       //secure:false
       secure: process.env.NODE_ENV === "production", // true in prod
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
@@ -47,7 +47,7 @@ app.use("/metrics", metricsRoutes);
 // db + server
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => {
+  .then(() => { //it means if db connected successfully only then starts server
     console.log("✅ MongoDB connected");
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () =>
@@ -59,7 +59,7 @@ mongoose
 
 // 🔹 production frontend
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "..frontend/build")));
+  app.use(express.static(path.join(__dirname, "..frontend/build"))); //backend serves react frontend instead of running seperately
 
   app.get("/{*path}", (req, res) => {
     res.sendFile(

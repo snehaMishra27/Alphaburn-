@@ -1,7 +1,8 @@
-const Workout = require("../models/Workout");
+const Workout = require("../models/Workout"); //workout is a nongoose model
 
 // POST /workout/add
-exports.addWorkout = async (req, res) => {
+exports.addWorkout = async (req, res) => {  //async because saving in database takes time nodes must wait
+
   try {
     const { type, duration,calories, date } = req.body;
 
@@ -29,9 +30,9 @@ exports.addWorkout = async (req, res) => {
 // GET /workout/list
 exports.getWorkouts = async (req, res) => {
   try {
-    const workouts = await Workout.find({
+    const workouts = await Workout.find({ //uses find instead of findOne() as one user could have many workouts so we may need the list
       userId: req.session.user.id
-    }).sort({ date: -1 });
+    }).sort({ date: -1 });  //descending order of sorting
 
     res.json({ workouts });
   } catch (err) {

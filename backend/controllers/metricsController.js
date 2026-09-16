@@ -25,7 +25,7 @@ exports.addMetrics = async (req, res) => {
       });
     }
 
-    const metrics = new Metrics({
+    const metrics = new Metrics({ //only RAM
       userId: req.session.user.id,
       sleepDuration,
       weight,

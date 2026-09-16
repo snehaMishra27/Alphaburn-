@@ -16,7 +16,7 @@ export const ThemeProvider = ({ children }) => {
   const toggleTheme = () => {
     setDark(!dark);
   };
-
+  //here we are making our dark & toggletheme available globally to every component wrapped inside themeprovider
   return (
     <ThemeContext.Provider value={{ dark, toggleTheme }}>
       {children}
