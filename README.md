@@ -42,23 +42,26 @@ MongoDB
 
 ###  Login
 
-![Login](./screenshots/login.png)
+![Login](./screenshot/login.png)
 
 ###  Dashboard
 
-![Dashboard](./screenshots/dashboard.png)
+![Dashboard](./screenshot/dashboard/part1.png)
+![Dashboard](./screenshot/dashboard/part2.png)
+![Dashboard](./screenshot/dashboard/part3.png)
 
 ###  Workout Tracking
 
-![Workout](./screenshots/workout.png)
+![Workout](./screenshot/addWorkout.png)
 
 ###  Fitness Metrics
 
-![Metrics](./screenshots/metrics.png)
+![Metrics](./screenshot/addMetrics.png)
 
 ###  Profile
 
-![Profile](./screenshots/profile.png)
+![Profile](./screenshot/profile/part1.png)
+![Profile](./screenshot/profile/part1.png)
 
 ##  Calorie Calculation
 
